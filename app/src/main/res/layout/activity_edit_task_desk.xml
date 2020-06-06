@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/layoutcolor"
+    android:paddingBottom="10dp"
+    android:scrollbars="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="?attr/colorPrimary"
+            android:layout_height="198dp">
+
+            <TextView
+                android:id="@+id/titlepage"
+                android:layout_marginTop="45dp"
+                android:textSize="26sp"
+                android:layout_marginBottom="28dp"
+                android:textColor="?attr/tintcolor"
+                android:text="@string/title_editTask"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </TextView>
+    <!--        <View-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:background="#131E69"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="1dp"/>-->
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="22dp"
+            android:paddingTop="22dp"
+            android:background="?attr/cardbackground"
+            android:layout_marginTop="-60dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addtitle"
+                    android:textSize="18sp"
+                    android:textColor="?attr/reversetextbuttoncolor"
+                    android:text="@string/add_title_newEditTask"
+                    android:layout_marginBottom="10dp"
+                    />
+
+                <EditText
+                    android:id="@+id/titleedit"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="?attr/hintcard"
+                    android:hint="@string/subs_add_title_newEditTask"
+                    android:inputType="text"
+                    android:paddingLeft="12dp"
+                    android:singleLine="false"
+                    android:textColor="?attr/justblack"
+                    android:textColorHint="#B5B5B5" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/adddesc"
+                    android:textSize="18sp"
+                    android:textColor="?attr/reversetextbuttoncolor"
+                    android:text="@string/desc_title_newEditTask"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/descedit"
+                    android:inputType="text"
+                    android:background="?attr/hintcard"
+                    android:paddingLeft="12dp"
+                    android:textColorHint="#B5B5B5"
+                    android:maxLength="25"
+                    android:textColor="?attr/justblack"
+                    android:hint="@string/subs_desc_title_newEditTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/adddate"
+                    android:textSize="18sp"
+                    android:textColor="?attr/reversetextbuttoncolor"
+                    android:text="@string/timeline_newEditTask"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/dateedit"
+                    android:layout_width="match_parent"
+                    android:paddingTop="3dp"
+                    android:layout_height="35dp"
+                    android:ems="10"
+                    android:inputType="none"
+                    android:hint="@string/date_newEditTask"
+                    android:paddingLeft="12dp"
+                    android:background="?attr/hintcard"
+                    android:textColor="?attr/justblack"
+                    android:textColorHint="#B5B5B5"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/timeedit"
+                    android:layout_width="match_parent"
+                    android:paddingTop="3dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?attr/hintcard"
+                    android:hint="@string/time_newEditTask"
+                    android:paddingLeft="12dp"
+                    android:ems="20"
+                    android:textSize="20sp"
+                    android:inputType="none"
+                    android:textColor="?attr/justblack"
+                    android:textColorHint="#B5B5B5"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnSaveUpdate"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/btn_saveTask"
+            android:textColor="#FFF"
+            android:textAllCaps="false"
+            android:background="?attr/colorPrimary"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="14dp"
+            android:text="@string/btn_DeleteTask"
+            android:textColor="?attr/tintcolor"
+            android:textAllCaps="false"
+            android:background="?attr/colorPrimary"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+    </LinearLayout>
+
+</ScrollView>

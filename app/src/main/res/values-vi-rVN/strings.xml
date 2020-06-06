@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Todo App</string>
+    <string name="app_title_main">Tất cả ghi chú</string>
+    <string name="subs_title_main">Cùng hoàn thành ghi chú</string>
+    <string name="no_more_task_main">Không còn ghi chú nào</string>
+    <string name="title_newTask">Tạo ghi chú mới</string>
+    <string name="title_editTask">Sửa ghi chú</string>
+    <string name="add_title_newEditTask">Thêm tiêu đề</string>
+    <string name="subs_add_title_newEditTask">Bạn muốn làm gì</string>
+    <string name="desc_title_newEditTask">Mô tả</string>
+    <string name="subs_desc_title_newEditTask">Cách thực hiện ?</string>
+    <string name="timeline_newEditTask">Mốc thời gian</string>
+    <string name="date_newEditTask">Khi nào ?</string>
+    <string name="time_newEditTask">Vào lúc mấy giờ ?</string>
+    <string name="btn_addNew">Tạo ghi chú</string>
+    <string name="btn_cancel">Hủy bỏ</string>
+    <string name="btn_saveTask">Lưu</string>
+    <string name="btn_DeleteTask">Xóa</string>
+</resources>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainConstraint"
+            android:layout_width="match_parent"
+            android:background="?attr/backgroundcolor"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="1dp"
+                android:background="?attr/recycleviewcolor"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.widget.SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:queryHint="Search Here"
+                    android:background="@android:color/background_light"/>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutTitle"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:background="?attr/recycleviewcolor"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/linearLayoutTitleContent"
+                        android:background="?attr/recycleviewcolor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/titlepage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/app_title_main"
+                            android:textColor="?attr/tintcolor"
+                            android:textSize="32sp"></TextView>
+
+                        <TextView
+                            android:id="@+id/subtitlepage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/subs_title_main"
+                            android:textColor="?attr/tintcolor"
+                            android:textSize="18sp"></TextView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ourdoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="?attr/recycleviewcolor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/endpage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_more_task_main"
+                    android:textAlignment="center"
+                    android:textColor="?attr/reversetextbuttoncolor"
+                    android:textSize="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ourdoes"></TextView>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <Button
+        android:id="@+id/btnAddNew"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bgbtnnew"
+        android:text="+"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="38sp" />
+
+</RelativeLayout>

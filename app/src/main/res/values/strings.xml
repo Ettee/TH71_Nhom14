@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Todo App</string>
+    <string name="app_title_main">All Memo</string>
+    <string name="subs_title_main">Let Finish Your Task </string>
+    <string name="no_more_task_main">No More Task</string>
+    <string name="title_newTask">Create Your New Task</string>
+    <string name="title_editTask">Edit Your Task</string>
+    <string name="add_title_newEditTask">Add Title</string>
+    <string name="subs_add_title_newEditTask">What do you do ?</string>
+    <string name="desc_title_newEditTask">Description</string>
+    <string name="subs_desc_title_newEditTask">How to do that ?</string>
+    <string name="timeline_newEditTask">Timeline</string>
+    <string name="date_newEditTask">When will it happen ?</string>
+    <string name="time_newEditTask">What is the time ?</string>
+    <string name="btn_addNew">Create Now</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_saveTask">Save Task</string>
+    <string name="btn_DeleteTask">Delete Task</string>
+</resources>
