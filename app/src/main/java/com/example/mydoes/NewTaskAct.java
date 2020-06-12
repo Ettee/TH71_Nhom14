@@ -5,7 +5,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class NewTaskAct extends AppCompatActivity {
     TextView titlepage,addtitle,adddesc,adddate;
@@ -41,6 +46,11 @@ public class NewTaskAct extends AppCompatActivity {
     Button btnSaveTask,btnCancel;
     DatabaseReference reference;
     SharedPref sharedPref;
+    boolean isDatePicked =false;
+    String timePicked;
+    Integer yearPicked,monthPicked,dateOfMonthPicked;
+    String titleForAlert,descForAlert;
+
 
     Integer doesNum=new Random().nextInt(100000);
 
@@ -94,12 +104,28 @@ public class NewTaskAct extends AppCompatActivity {
                         Intent createTaskInMain = new Intent(NewTaskAct.this,MainActivity.class);
                         startActivity(createTaskInMain);
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         finish();
                     }
                 });
+                Date remindDate=new Date(timePicked.trim());
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"));
+                calendar.setTime(remindDate);
+                calendar.set(Calendar.SECOND,0);
+
+                titleForAlert=titledoes.getText().toString();
+                descForAlert=descdoes.getText().toString();
+
+                Intent intent= new Intent(NewTaskAct.this,NotifierAlarm.class);
+                intent.putExtra("title",titleForAlert);
+                intent.putExtra("desc",descForAlert);
+                intent.putExtra("time",remindDate.toString());
+                intent.putExtra("id",doesNum);
+                PendingIntent intent1 = PendingIntent.getBroadcast(NewTaskAct.this,doesNum,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -151,32 +177,55 @@ public class NewTaskAct extends AppCompatActivity {
         final Calendar calendar = Calendar.getInstance();
         int date = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+        final int year = calendar.get(Calendar.YEAR);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 //i: năm -i1: tháng -i2: ngày
                 // user khi set lại thời gian sẽ trả ra i i1 i2, dùng 3 biến đó để set lại time r hiển thị ra edittext bên ngoài
-                calendar.set(i,i1,i2);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                datedoes.setText(simpleDateFormat.format(calendar.getTime()));
+
+                final Calendar newDate = Calendar.getInstance();
+                newDate.set(i,i1,i2);
+                Calendar tem = Calendar.getInstance();
+                if(newDate.getTimeInMillis()-tem.getTimeInMillis()>=0){
+                    calendar.set(i,i1,i2);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    datedoes.setText(simpleDateFormat.format(calendar.getTime()));
+                    yearPicked=i;
+                    monthPicked=i1;
+                    dateOfMonthPicked=i2;
+                    isDatePicked=true;
+                }else{
+                    Toast.makeText(NewTaskAct.this,"Invalid time",Toast.LENGTH_SHORT).show();
+                }
+
             }
         },year,month,date);
+
+        //set mờ những ngày ở quá khứ
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
     private void ChonGio(){
-        final Calendar  calendar= Calendar.getInstance();
-        int gio=calendar.get(Calendar.HOUR_OF_DAY);
-        int phut= calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-                calendar.set(0,0,0,i,i1);
-                timedoes.setText(simpleDateFormat.format(calendar.getTime()));
-            }
-        },gio,phut,true);
-        timePickerDialog.show();
+        if(isDatePicked){
+            final Calendar  calendar= Calendar.getInstance();
+            int gio=calendar.get(Calendar.HOUR_OF_DAY);
+            int phut= calendar.get(Calendar.MINUTE);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                    calendar.set(yearPicked,monthPicked,dateOfMonthPicked,i,i1);
+                    timedoes.setText( simpleDateFormat.format(calendar.getTime()));
+                    timePicked=calendar.getTime().toString();
+                }
+            },gio,phut,true);
+            timePickerDialog.show();
+        }
+        else{
+            Toast.makeText(NewTaskAct.this,"Chưa chọn ngày",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     //create option menu
