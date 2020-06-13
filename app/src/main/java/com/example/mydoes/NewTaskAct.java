@@ -50,10 +50,7 @@ public class NewTaskAct extends AppCompatActivity {
     String timePicked;
     Integer yearPicked,monthPicked,dateOfMonthPicked;
     String titleForAlert,descForAlert;
-
-
     Integer doesNum=new Random().nextInt(100000);
-
     String keydoes = Integer.toString(doesNum);
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -89,43 +86,51 @@ public class NewTaskAct extends AppCompatActivity {
         btnSaveTask.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //insert data to database
-                reference= FirebaseDatabase.getInstance().getReference().child("BoxDoes").
-                        child("Does"+doesNum);
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // cai child() dựa theo id của phần item_does
-                        dataSnapshot.getRef().child("titledoes").setValue(titledoes.getText().toString());
-                        dataSnapshot.getRef().child("descdoes").setValue(descdoes.getText().toString());
-                        dataSnapshot.getRef().child("datedoes").setValue(datedoes.getText().toString());
-                        dataSnapshot.getRef().child("timedoes").setValue(timedoes.getText().toString());
-                        dataSnapshot.getRef().child("keydoes").setValue(keydoes);
-                        Intent createTaskInMain = new Intent(NewTaskAct.this,MainActivity.class);
-                        startActivity(createTaskInMain);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        finish();
-                    }
-                });
-                Date remindDate=new Date(timePicked.trim());
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"));
-                calendar.setTime(remindDate);
-                calendar.set(Calendar.SECOND,0);
+               boolean checkTitle=false,checkDesc=false,checkDate=false,checkTime=false,isFormValid=false;
+               checkTitle=checkTitleInput();
+               checkDesc=checkDescInput();
+               checkDate=checkDateInput();
+               checkTime=checkTimeInput();
+               isFormValid =checkTitle && checkDesc && checkDate && checkTime;
+               if(isFormValid)
+               {
+                   //insert data to database
+                   reference= FirebaseDatabase.getInstance().getReference().child("BoxDoes").
+                           child("Does"+doesNum);
+                   reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           // cai child() dựa theo id của phần item_does
+                           dataSnapshot.getRef().child("titledoes").setValue(titledoes.getText().toString());
+                           dataSnapshot.getRef().child("descdoes").setValue(descdoes.getText().toString());
+                           dataSnapshot.getRef().child("datedoes").setValue(datedoes.getText().toString());
+                           dataSnapshot.getRef().child("timedoes").setValue(timedoes.getText().toString());
+                           dataSnapshot.getRef().child("keydoes").setValue(keydoes);
+                           Intent createTaskInMain = new Intent(NewTaskAct.this,MainActivity.class);
+                           startActivity(createTaskInMain);
+                       }
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError databaseError) {
+                           finish();
+                       }
+                   });
+                   Date remindDate=new Date(timePicked.trim());
+                   Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"));
+                   calendar.setTime(remindDate);
+                   calendar.set(Calendar.SECOND,0);
 
-                titleForAlert=titledoes.getText().toString();
-                descForAlert=descdoes.getText().toString();
+                   titleForAlert=titledoes.getText().toString();
+                   descForAlert=descdoes.getText().toString();
 
-                Intent intent= new Intent(NewTaskAct.this,NotifierAlarm.class);
-                intent.putExtra("title",titleForAlert);
-                intent.putExtra("desc",descForAlert);
-                intent.putExtra("time",remindDate.toString());
-                intent.putExtra("id",doesNum);
-                PendingIntent intent1 = PendingIntent.getBroadcast(NewTaskAct.this,doesNum,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);
-
+                   Intent intent= new Intent(NewTaskAct.this,NotifierAlarm.class);
+                   intent.putExtra("title",titleForAlert);
+                   intent.putExtra("desc",descForAlert);
+                   intent.putExtra("time",remindDate.toString());
+                   intent.putExtra("id",doesNum);
+                   PendingIntent intent1 = PendingIntent.getBroadcast(NewTaskAct.this,doesNum,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                   AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                   alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);
+               }
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -226,6 +231,51 @@ public class NewTaskAct extends AppCompatActivity {
             Toast.makeText(NewTaskAct.this,"Chưa chọn ngày",Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private boolean checkTitleInput(){
+        final EditText titledoes=findViewById(R.id.titledoes);
+        final String text = titledoes.getText().toString();
+        if(text.length()== 0){
+            titledoes.setError("Bạn chưa nhập title nè");
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+    private boolean checkDescInput(){
+        final EditText descdoes=findViewById(R.id.descdoes);
+        final String text = descdoes.getText().toString();
+        if(text.length()==0){
+            descdoes.setError("Bạn chưa nhập description nè.");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    private  boolean checkDateInput(){
+        final TextView datedoes = findViewById(R.id.datedoes);
+        final String text =datedoes.getText().toString();
+        if(text.length()==0){
+            datedoes.setError("Bạn chưa nhập date nè.");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    private  boolean checkTimeInput(){
+        final TextView timedoes = findViewById(R.id.timedoes);
+        final String text =timedoes.getText().toString();
+        if(text.length()==0){
+            timedoes.setError("Bạn chưa nhập time nè.");
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     //create option menu

@@ -6,7 +6,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -15,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,8 +34,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class EditTaskDesk extends AppCompatActivity {
     EditText titleDoes,descDoes;
@@ -42,6 +45,10 @@ public class EditTaskDesk extends AppCompatActivity {
     Button btnSaveUpdate,btnDelete;
     DatabaseReference reference;
     SharedPref sharedPref;
+    String timePicked;
+    boolean isDatePicked=false;
+    Integer yearPicked,monthPicked,dateOfMonthPicked;
+    String titleForAlert,descForAlert;
     Map<String, Object> updates = new HashMap<String,Object>();
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -97,26 +104,42 @@ public class EditTaskDesk extends AppCompatActivity {
         btnSaveUpdate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //insert data to database
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        dataSnapshot.getRef().child("titledoes").setValue(titleDoes.getText().toString());
-                        dataSnapshot.getRef().child("descdoes").setValue(descDoes.getText().toString());
-                        dataSnapshot.getRef().child("datedoes").setValue(dateDoes.getText().toString());
-                        dataSnapshot.getRef().child("timedoes").setValue(timeDoes.getText().toString());
-                        Intent createTaskInMain = new Intent(EditTaskDesk.this,MainActivity.class);
-                        startActivity(createTaskInMain);
-                    }
+                    //insert data to database
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            dataSnapshot.getRef().child("titledoes").setValue(titleDoes.getText().toString());
+                            dataSnapshot.getRef().child("descdoes").setValue(descDoes.getText().toString());
+                            dataSnapshot.getRef().child("datedoes").setValue(dateDoes.getText().toString());
+                            dataSnapshot.getRef().child("timedoes").setValue(timeDoes.getText().toString());
+                            Intent createTaskInMain = new Intent(EditTaskDesk.this,MainActivity.class);
+                            startActivity(createTaskInMain);
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                    Date remindDate=new Date(timePicked.trim());
+                    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"));
+                    calendar.setTime(remindDate);
+                    calendar.set(Calendar.SECOND,0);
+
+                    titleForAlert=titleDoes.getText().toString();
+                    descForAlert=descDoes.getText().toString();
+
+                    Intent intent= new Intent(EditTaskDesk.this,NotifierAlarm.class);
+                    intent.putExtra("title",titleForAlert);
+                    intent.putExtra("desc",descForAlert);
+                    intent.putExtra("time",remindDate.toString());
+                    intent.putExtra("id",keykeyDoes);
+                    PendingIntent intent1 = PendingIntent.getBroadcast(EditTaskDesk.this,Integer.parseInt(keykeyDoes),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),intent1);
             }
         });
-        Utils.hideKeyboard( EditTaskDesk.this);
+
         dateDoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,27 +168,71 @@ public class EditTaskDesk extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 //i: năm -i1: tháng -i2: ngày
                 // user khi set lại thời gian sẽ trả ra i i1 i2, dùng 3 biến đó để set lại time r hiển thị ra edittext bên ngoài
-                calendar.set(i,i1,i2);
-                SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
-                dateDoes.setText(simpleDateFormat.format(calendar.getTime()));
+                final Calendar newDate= Calendar.getInstance();
+                newDate.set(i,i1,i2);
+                Calendar tem=Calendar.getInstance();
+                if(newDate.getTimeInMillis()-tem.getTimeInMillis()>=0){
+                    calendar.set(i,i1,i2);
+                    SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
+                    dateDoes.setText(simpleDateFormat.format(calendar.getTime()));
+                    yearPicked=i;
+                    monthPicked=i1;
+                    dateOfMonthPicked=i2;
+                    isDatePicked=true;
+                }else{
+                    Toast.makeText(EditTaskDesk.this,"Invalid time",Toast.LENGTH_LONG).show();
+                }
+
             }
         },nam,thang,ngay);
+
+        //set mờ những ngày ở quá khứ
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
     private void getTimeChange(){
-        final Calendar calendar= Calendar.getInstance();
-        int gio=calendar.get(Calendar.HOUR_OF_DAY);
-        int phut =calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                SimpleDateFormat simpleDateFormat =new SimpleDateFormat("HH:mm");
-                calendar.set(0,0,0,i,i1);
-                timeDoes.setText(simpleDateFormat.format(calendar.getTime()));
-            }
-        },gio,phut,true);
-        timePickerDialog.show();
+        if(isDatePicked){
+            final Calendar calendar= Calendar.getInstance();
+            int gio=calendar.get(Calendar.HOUR_OF_DAY);
+            int phut =calendar.get(Calendar.MINUTE);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                    SimpleDateFormat simpleDateFormat =new SimpleDateFormat("HH:mm");
+                    calendar.set(yearPicked,monthPicked,dateOfMonthPicked,i,i1);
+                    timeDoes.setText(simpleDateFormat.format(calendar.getTime()));
+                    timePicked=calendar.getTime().toString();
+                }
+            },gio,phut,true);
+            timePickerDialog.show();
+        }else{
+            Toast.makeText(EditTaskDesk.this,"Chưa chọn ngày",Toast.LENGTH_LONG).show();
+        }
+
     }
+
+//    private boolean checkTitleInput(){
+//        final EditText titleedit=findViewById(R.id.titleedit);
+//        final String text = titleedit.getText().toString();
+//        if(text.length()== 0){
+//            titleedit.setError("Bạn chưa nhập title nè");
+//            return false;
+//        }else {
+//            return true;
+//        }
+//
+//    }
+//    private boolean checkDescInput(){
+//        final EditText descedit=findViewById(R.id.descedit);
+//        final String text = descedit.getText().toString();
+//        if(text.length()==0){
+//            descedit.setError("Bạn chưa nhập description nè.");
+//            return false;
+//        }
+//        else{
+//            return true;
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
