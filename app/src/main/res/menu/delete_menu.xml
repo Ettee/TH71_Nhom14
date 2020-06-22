@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_delete_notes"
+        android:title="Delete Notes"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/ic_delete"
+        />
+    <item android:id="@+id/action_deleteall"
+        android:title="Delete all Notes"
+        app:showAsAction="never"
+        android:enabled="true"
+        android:titleCondensed="Delete every Notes"
+        />
+    <item android:id="@+id/aboutudeletes"
+        android:title="About us"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/changethemedeletes"
+        android:title="Change Theme"/>
+
+    <item android:id="@+id/refreshdeletes"
+        android:title="Refresh"/>
+
+</menu>

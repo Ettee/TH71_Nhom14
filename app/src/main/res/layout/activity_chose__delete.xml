@@ -30,7 +30,7 @@
                 tools:layout_editor_absoluteX="0dp">
 
                 <android.widget.SearchView
-                    android:id="@+id/search_view"
+                    android:id="@+id/search_viewdelete"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@android:color/background_light"
@@ -60,15 +60,6 @@
                             android:text="@string/app_title_main"
                             android:textColor="?attr/tintcolor"
                             android:textSize="32sp"></TextView>
-
-                        <TextView
-                            android:id="@+id/subtitlepage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/subs_title_main"
-                            android:textColor="?attr/tintcolor"
-                            android:textSize="18sp"></TextView>
 
                     </LinearLayout>
 
@@ -100,18 +91,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/btnAddNew"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/bgbtnnew"
-        android:text="+"
-        android:textAlignment="center"
-        android:textColor="#FFF"
-        android:textSize="38sp" />
 
 </RelativeLayout>

@@ -17,10 +17,10 @@
         android:layout_marginLeft="10dp"
         android:orientation="vertical"
         android:layout_width="230dp"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:id="@+id/linearLayout">
         <TextView
-            android:id="@+id/titledoes"
+            android:id="@+id/titledoesdelete"
             android:layout_marginTop="19dp"
             android:textSize="22sp"
             android:textColor="#000C5D"
@@ -29,14 +29,22 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/descdoes"
+            android:id="@+id/descdoesdelete"
             android:textSize="18sp"
             android:textColor="#ADADAD"
             android:layout_marginTop="8dp"
             android:text="Nearly market good to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
+        <CheckBox
+            android:id="@+id/checkBoxTaskdelete"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="40dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/datedoes"
+                android:id="@+id/datedoesdelete"
                 android:layout_width="115dp"
                 android:layout_height="30dp"
                 android:text="12/5/2020"
@@ -65,7 +73,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/timedoes"
+                android:id="@+id/timedoesdelete"
                 android:layout_width="115dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="29dp"
@@ -78,15 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <CheckBox
-            android:id="@+id/checkBoxTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

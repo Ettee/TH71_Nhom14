@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DeleteButton" android:parentActivityName=".MainActivity"></activity>
         <receiver
             android:name=".NotifierAlarm"
             android:enabled="true"

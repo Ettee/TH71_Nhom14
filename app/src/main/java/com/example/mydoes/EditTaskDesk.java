@@ -80,6 +80,7 @@ public class EditTaskDesk extends AppCompatActivity {
         descDoes.setText(getIntent().getStringExtra("descdoes"));
         dateDoes.setText(getIntent().getStringExtra("datedoes"));
         timeDoes.setText(getIntent().getStringExtra("timedoes"));
+
         final String keykeyDoes =getIntent().getStringExtra("keydoes");
         reference= FirebaseDatabase.getInstance().getReference().child("BoxDoes").
                 child("Does"+keykeyDoes);
@@ -99,7 +100,6 @@ public class EditTaskDesk extends AppCompatActivity {
                 });
             }
         });
-
         //make an event for button
         btnSaveUpdate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -237,7 +237,7 @@ public class EditTaskDesk extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mymenu, menu);
+        inflater.inflate(R.menu.submenu, menu);
         return true;
     }
 
@@ -248,9 +248,16 @@ public class EditTaskDesk extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
-            case R.id.change_theme:
+            case R.id.changetheme:
                 Intent change = new Intent(EditTaskDesk.this, ChangeTheme.class);
                 startActivity(change);
+                return true;
+            case R.id.aboutus:
+                Intent about = new Intent(EditTaskDesk.this, AboutUs.class);
+                startActivity(about);
+                return true;
+            case R.id.refresh:
+                recreate();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

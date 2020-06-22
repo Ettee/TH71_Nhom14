@@ -66,11 +66,9 @@ public class NewTaskAct extends AppCompatActivity {
         setContentView(R.layout.activity_new_task);
 
         titlepage = findViewById(R.id.titlepage);
-
         addtitle = findViewById(R.id.addtitle);
         adddesc=findViewById(R.id.adddesc);
         adddate= findViewById(R.id.adddate);
-
         titledoes =findViewById(R.id.titledoes);
         descdoes = findViewById(R.id.descdoes);
         datedoes =(TextView) findViewById(R.id.datedoes);
@@ -282,7 +280,7 @@ public class NewTaskAct extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mymenu, menu);
+        inflater.inflate(R.menu.submenu, menu);
         return true;
     }
 
@@ -293,9 +291,16 @@ public class NewTaskAct extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
-            case R.id.change_theme:
+            case R.id.changetheme:
                 Intent change = new Intent(NewTaskAct.this, ChangeTheme.class);
                 startActivity(change);
+                return true;
+            case R.id.aboutus:
+                Intent about = new Intent(NewTaskAct.this, AboutUs.class);
+                startActivity(about);
+                return true;
+            case R.id.refresh:
+                recreate();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

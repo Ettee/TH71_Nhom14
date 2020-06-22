@@ -17,10 +17,9 @@ public class DoesAdapter extends RecyclerView.Adapter<DoesAdapter.MyViewHolder>{
     ArrayList<MyDoesApp> myDoes;
 
     public DoesAdapter(Context c, ArrayList<MyDoesApp> p) {
-        context = c;
+         context = c;
         myDoes = p;
     }
-
     //create a task base on item_does layout
     @NonNull
     @Override
@@ -33,7 +32,6 @@ public class DoesAdapter extends RecyclerView.Adapter<DoesAdapter.MyViewHolder>{
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
         myViewHolder.titledoes.setText(myDoes.get(i).getTitledoes());
         myViewHolder.descdoes.setText(myDoes.get(i).getDescdoes());
-
         myViewHolder.datedoes.setText(myDoes.get(i).getDatedoes());
         myViewHolder.timedoes.setText(myDoes.get(i).getTimedoes());
 
@@ -53,12 +51,12 @@ public class DoesAdapter extends RecyclerView.Adapter<DoesAdapter.MyViewHolder>{
                 EditTask.putExtra("datedoes",getDateDoes);
                 EditTask.putExtra("timedoes",getTimeDoes);
                 EditTask.putExtra("keydoes",getKeyDoes);
+
                 context.startActivity(EditTask);
             }
         });
 
     }
-
     @Override
     public int getItemCount() {
         return myDoes.size();
@@ -75,8 +73,6 @@ public class DoesAdapter extends RecyclerView.Adapter<DoesAdapter.MyViewHolder>{
             descdoes = (TextView) itemView.findViewById(R.id.descdoes);
             datedoes = (TextView) itemView.findViewById(R.id.datedoes);
             timedoes = (TextView) itemView.findViewById(R.id.timedoes);
-
-
         }
     }
 

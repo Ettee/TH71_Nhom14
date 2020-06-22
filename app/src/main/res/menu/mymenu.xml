@@ -10,13 +10,16 @@
     <item android:id="@+id/action_delete"
         android:title="Delete"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_delete"/>
+        android:icon="@drawable/ic_delete"
+        android:enabled="true"/>
 <!--    <item android:id="@+id/lang_vn"-->
 <!--        android:title="Tiếng việt"/>-->
 <!--    <item android:id="@+id/lang_en"-->
 <!--        android:title="Tiếng anh"/>-->
     <item android:id="@+id/change_theme"
         android:title="Change Theme"/>
+    <item android:id="@+id/action_refresh"
+        android:title="Refresh"/>
 <!--    <item android:id="@+id/action_search"-->
 <!--        android:icon="@drawable/ic_search"-->
 <!--        android:title="Search"-->

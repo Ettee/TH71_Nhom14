@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class ChangeTheme extends AppCompatActivity {
     public Switch myswitch;
@@ -25,6 +26,7 @@ public class ChangeTheme extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_theme);
+//        setContentView(R.layout.activity_chose__delete);
 
         myswitch = (Switch) findViewById(R.id.myswitch);
         if(sharedPref.loadNightModeState() == true) {
@@ -34,10 +36,12 @@ public class ChangeTheme extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
+                    Toast.makeText(getApplicationContext(), "Press refresh to apply Dark Mode", Toast.LENGTH_LONG).show();
                     sharedPref.setNightModeState(true);
                     recreate();
                 }
                 else {
+                    Toast.makeText(getApplicationContext(), "Press refresh to apply Light Mode", Toast.LENGTH_LONG).show();
                     sharedPref.setNightModeState(false);
                     recreate();
                 }
